@@ -1,5 +1,6 @@
 Vue.component ('categories-list',{
         template: `
+    <div>
     <table class="table">
                     <thead class="thead-light">
                     <tr>
@@ -7,29 +8,37 @@ Vue.component ('categories-list',{
                         <th scope="col">Наименование</th>
                         <th scope="col">Кол-во товаров</th>
                         <th scope="col">Статус</th>
+                        <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Одежда мужская</td>
+                    <tr v-for="category in categories">
+                        <th scope="row">{{ category.id }}</th>
+                        <td>{{ category.name }}</td>
                         <td>0</td>
-                        <td>онлайн</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Одежда женская</td>
-                        <td>0</td>
-                        <td>онлайн</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Обувь</td>
-                        <td>0</td>
-                        <td>онлайн</td>
+                        <td>{{ category.status }}</td>
+                        <td><button v-on:click="editCategory(category.id)" type="button" class="btn btn-warning btn-sm">Редактировать</button></td>
                     </tr>
                     </tbody>
                 </table>
+                <category-form  v-if="editing_category_id"
+                                v-bind:object="editingCategory"></category-form>
+                </div>
     `,
-    props: {}
+    props: ['categories'],
+    data: function(){ return {
+        editing_category_id: null
+    }
+    },
+    computed: {
+      editingCategory: function () {
+          if (this.editing_category_id === null) return;
+          return this.categories.find(function (el) {return el.id === this.editing_category_id}.bind(this))
+      }
+    },
+    methods: {
+        editCategory: function (id) {
+            this.editing_category_id = id
+        }
+    }
 })
