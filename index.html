@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -11,36 +12,37 @@
     <script src="categories-list.js"></script>
     <script src="dashboard.js"></script>
     <script src="category-form.js"></script>
+    <script src="good-form.js"></script>
 </head>
+
 <body>
-
-    <div id="app">
-
+<div id="app">
     <div class="container">
-        <div class="row">
-            <div class="col-md-3 main-menu">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a v-on:click="menuItemClick('goods')" class="nav-link active" href="#">Товары</a>
-                    </li>
-                    <li class="nav-item">
-                        <a v-on:click="menuItemClick('categories')" class="nav-link" href="#">Категории</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-9">
-                <div class="section-header">
-                <h3> {{ sectionName }} </h3>
-                </div>
-                <dashboard v-if="current_section === 'dashboard'"></dashboard>
-                <goods-list v-if="current_section === 'goods'"></goods-list>
-                <categories-list v-if="current_section === 'categories'"
-                                 v-bind:categories="categories"></categories-list>
-            </div>
+    <div class="row">
+
+        <div class="col-md-3 main-menu">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a v-on:click="menuItemClick('goods')" class="nav-link active" href="#">Товары</a>
+                </li>
+                <li class="nav-item">
+                    <a v-on:click="menuItemClick('categories')" class="nav-link" href="#">Категории</a>
+                </li>
+            </ul>
         </div>
-    </div>
+
+        <div class="col-md-9">
+            <div class="section-header">
+                <h3>{{sectionName}}</h3>
+            </div>
+            <dashboard v-if="current_section === 'dashboard'"></dashboard>
+            <goods-list v-bind:goods="goods" v-if="current_section === 'goods'"></goods-list>
+            <categories-list v-bind:categories="categories" v-if="current_section === 'categories'"></categories-list>
+        </div>
 
     </div>
+</div>
+</div>
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -54,38 +56,39 @@
         crossorigin="anonymous"></script>
 
 
-    <script>
-        var app = new Vue ({
-            el: '#app',
-            data: {
-                current_section: 'categories',
-                categories: [
-                    {id: 1, name: 'Одежда мужская', status: 'active'},
-                    {id: 2, name: 'Женская одежда', status: 'active'},
-                    {id: 3, name: 'Обувь', status: 'active'}
-                ]
-            },
-            computed: {
-              sectionName: function () {
-                  switch (this.current_section) {
-                      case 'goods':
-                          return 'Товары';
-                      case 'categories':
-                          return 'Категории';
-                      case 'dashboard':
-                          return '';
-                      default:
-                          return this.current_section
-                  }
-              }
-            },
-            methods: {
-                menuItemClick: function (section) {
-                    this.current_section = section
+<script>
+    var app = new Vue ({
+        el: '#app',
+        data: {
+            current_section: 'dashboard',
+            goods: [
+                {id: 1, name: 'Брюки мужские', qty: 35, price: 2650},
+                {id: 2, name: 'Платье женское', qty: 13, price: 7500},
+                {id: 3, name: 'Кеды', qty: 44, price: 1650}
+            ],
+            categories: [
+                {id: 1, name: 'Одежда мужская', status: 'active'},
+                {id: 2, name: 'Одежда женская', status: 'active'},
+                {id: 3, name: 'Обувь', status: 'active'}
+            ]
+        },
+        computed: {
+            sectionName: function () {
+                switch (this.current_section)  {
+                    case 'goods': return "Товары"
+                    case 'categories': return "Категории"
+                    case 'dashboard': return ""
+                    default: return this.current_section
                 }
             }
+        },
+        methods: {
+            menuItemClick: function (section) {
+                this.current_section = section
+            }
+        }
+    })
+</script>
 
-        })
-    </script>
 </body>
 </html>

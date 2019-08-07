@@ -1,5 +1,5 @@
 body {
-    background: #fff5b8;
+    background: #ddd;
 }
 
 .container {
@@ -17,5 +17,6 @@ body {
 
 .widgets-container .card {
     display: inline-block;
-    margin: 10px;
+    width: 48%;
+    padding: 10px;
 }
