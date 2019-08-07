@@ -39,7 +39,9 @@
             <div class="section-header">
                 <h3>{{ sectionName }}</h3>
             </div>
-            <router-view v-bind:goods="goods" v-bind:categories="categories"></router-view>
+            <router-view v-bind:goods="goods"
+                         v-bind:categories="categories"
+                         v-on:category-form-submited="categoryFormSubmited"></router-view>
         </div>
 
     </div>
@@ -64,7 +66,8 @@
     const ishop_routes = [
         {name: 'dashboard', path: '/', component: DASHBOARD},
         {name: 'goods-list', path: '/goods', component: GOODS_LIST},
-        {name: 'categories-list', path: '/categories', component: CATEGORIES_LIST}
+        {name: 'categories-list', path: '/categories', component: CATEGORIES_LIST},
+        {name: 'category-form', path: '/categories/:id/edit', component: CATEGORY_FORM, props: true}
     ];
 
     const router_for_uor_app = new VueRouter({
@@ -95,9 +98,19 @@
                     default: return this.$route.name
                 }
             }
+        },
+        methods: {
+            categoryFormSubmited: function (data) {
+                console.log('categoryFormSubmited:', data);
+                // обновляем данные в массиве categories
+                this.$router.push({name:'categories-list'})
+            }
         }
     })
 </script>
 
 </body>
 </html>
+
+
+// 1)сделать обновления категорий 2) реализовать для товаров 3) поработать с формой (через bootstrap)
