@@ -24,8 +24,8 @@ Vue.component('good-form', {
     },
     methods: {
         fillForm: function () {
-            this.name = this.object.name
-            this.qty = this.object.qty
+            this.name = this.object.name;
+            this.qty = this.object.qty;
             this.price = this.object.price
         }
     }
