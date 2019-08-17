@@ -102,7 +102,8 @@
         methods: {
             categoryFormSubmited: function (data) {
                 console.log('categoryFormSubmited:', data);
-                // обновляем данные в массиве categories
+                this.categories.splice(data.id-1, 1, {id: data.id, name: data.name, status: data.status});
+
                 this.$router.push({name:'categories-list'})
             }
         }
