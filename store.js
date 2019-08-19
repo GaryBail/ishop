@@ -35,10 +35,15 @@ const store_for_our_app = new Vuex.Store ({
         }
       },
       deleteCategory: function (state, category) {
-        var index = state.categories.findIndex(el => el.id === category.id);
-        if (index>=0) {
-          state.categories.splice(index, 1)
+          var index = state.categories.findIndex(el => el.id === category.id);
+          if (index >= 0) {
+              state.categories.splice(index, 1)
+          }
+      },
+        createGood: function (state, good) {
+            var maxId = Math.max.apply(Math, state.goods.map(c=>c.id));
+            good.id = maxId + 1;
+            state.goods.push(good)
         }
-      }
     }
 });

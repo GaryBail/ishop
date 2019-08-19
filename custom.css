@@ -4,7 +4,7 @@ body {
 
 .container {
     background: white;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .main-menu {
@@ -21,6 +21,10 @@ body {
     padding: 10px;
 }
 
-.nav-link .router-link-exact-active {
+.nav-link.router-link-exact-active {
     font-weight: bold;
+}
+
+.controls{
+    padding-bottom: 20px;
 }

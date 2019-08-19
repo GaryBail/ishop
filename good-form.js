@@ -1,32 +1,64 @@
-Vue.component('good-form', {
+const GOOD_FORM = {
     template: `
-<div>
-    <label>Наименование: <input type="text" v-model="name"></label><br>
-    <label>Кол-во: <input type="number" v-model="qty"></label><br>
-    <label>Цена: <input type="number" v-model="price"></label><br>
-</div>
+    <div id="myModal1" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title"> {{ header }} </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                    <label>Наименование: </label>
+                    <input type="text" v-model="name" class="form-control">
+                    <label>Кол-во: </label>
+                    <input type="number" v-model="qty" class="form-control">
+                    <label>Цена: </label>
+                    <input type="number" v-model="price" class="form-control">
+                </div>
+                    <div class="modal-footer">
+                        <button v-on:click="submitFormClicked" data-dismiss="modal" type="button" class="btn btn-primary">Сохранить изменения</button>
+                        <button v-on:click="$emit('good-form-canceling')" type="button" class="btn btn-default btn-danger" data-dismiss="modal">Закрыть</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     `,
-    props: ['object'],
+    props:['id'],
     data: function () {
         return {
             name: null,
             qty: null,
-            price: null
+            price: null,
+
         }
     },
     created: function () {
         this.fillForm()
     },
     watch: {
-      object: function () {
-          this.fillForm()
+        id: function () {
+            this.fillForm()
+        }
+    },
+    computed: {
+      header: function () {
+          return this.id ? 'Редактирование товара' : 'Создание товара'
       }
     },
     methods: {
         fillForm: function () {
-            this.name = this.object.name;
-            this.qty = this.object.qty;
-            this.price = this.object.price
+            var good = this.$store.state.goods.find(good => good.id === this.id)
+            if (good) {
+            this.name = good.name
+            this.qty = good.qty
+            this.price = good.price
+            }
+        },
+        submitFormClicked: function () {
+            this.$emit('good-form-submitted', {id: this.id, name: this.name, qty: this.qty, price: this.price})
         }
     }
-})
+}
+
+Vue.component('good-form', GOOD_FORM)

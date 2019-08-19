@@ -20,4 +20,4 @@ const DASHBOARD = {
     `
 };
 
- Vue.component('dashboard', DASHBOARD);
+Vue.component('dashboard', DASHBOARD);

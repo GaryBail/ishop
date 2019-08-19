@@ -3,6 +3,7 @@ const ishop_routes = [
     {
         name: 'goods-list', path: '/goods', component: GOODS_LIST,
         children: [
+            {name: 'good-new', path: '/goods/new', component: GOOD_FORM},
             {name: 'good-form', path: '/goods/:id/edit', component: GOOD_FORM, props: true}
         ]
     },

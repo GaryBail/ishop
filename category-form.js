@@ -1,15 +1,30 @@
 const CATEGORY_FORM = {
     template: `
-<div>
-    <label>Наименование</label>
-        <input type="text" v-model="name"><br>
-    <label>Статус</label>
-        <input type="text" v-model="status">
-    <br>
-        <div v-on:click="submitFormClicked" class="btn btn-primary">Сохранить</div>  
-</div> 
+    <div id="myModal1" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">{{header}}</h4>                       
+                    </div>
+                    <div class="modal-body">
+                    <label>Наименование: </label>
+                    <input type="text" v-model="name" class="form-control">
+                    <label> Статус: </label>
+                    <select type="text" v-model="status" class="form-control">
+                        <option value="active">active</option>
+                        <option value="non-active">non-active</option>
+                    </select>
+                </div>
+                    <div class="modal-footer">
+                        <button v-on:click="submitFormClicked" data-dismiss="modal" type="button" class="btn btn-primary">Сохранить изменения</button>
+                        <button v-on:click="$emit('category-form-canceling')" data-dismiss="modal" type="button" class="btn btn-default btn-danger">Закрыть</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     `,
-    props: {id: {}, object:{default: {} } },
+    props: ['id'],
     data: function () {
         return {
             name: null,
@@ -24,16 +39,23 @@ const CATEGORY_FORM = {
             this.fillForm()
         }
     },
+    computed: {
+        header: function () {
+            return this.id ? 'Редактирование категории' : 'Создание категории'
+        }
+    },
     methods: {
-        submitFormClicked: function () {
-            this.$emit('category-form-submited', {id: this.id, name: this.name, status: this.status})
-        },
-
         fillForm: function () {
-            this.name = this.object.name;
-            this.status = this.object.status
+            var category = this.$store.state.categories.find(category => category.id === this.id);
+            if (category) {
+                this.name = category.name
+                this.status = category.status
+            }
+        },
+        submitFormClicked: function () {
+            this.$emit('category-form-submitted', {id: this.id, name: this.name, status: this.status})
         }
     }
 };
 
- Vue.component('category-form', CATEGORY_FORM);
+Vue.component('category-form', CATEGORY_FORM)
